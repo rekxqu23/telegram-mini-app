@@ -1,4 +1,4 @@
-// Данные учебника
+// Данные учебника (оставлены без изменений)
 const textbook = {
     languages: [
         { name: 'Python', id: 'python' },
@@ -7,34 +7,16 @@ const textbook = {
     ],
     chapters: {
         python: [
-            { 
-                title: 'Основы Python', 
-                content: 'Python — простой и мощный язык, идеален для начинающих. Установите его с python.org и напишите первую программу.<br><br>Синтаксис включает переменные, условия и циклы.<br><br>Пример кода:<pre><code>print("Привет, мир!")</code></pre>' 
-            },
-            { 
-                title: 'Функции в Python', 
-                content: 'Функции создаются с def, принимают параметры и возвращают значения.<br><br>Используйте их для повторного кода.<br><br>Пример кода:<pre><code>def summa(a, b):<br>    return a + b<br>print(summa(5, 3))  # 8</code></pre>' 
-            }
+            { title: 'Основы Python', content: 'Python — простой и мощный язык, идеален для начинающих. Установите его с python.org и напишите первую программу.<br><br>Синтаксис включает переменные, условия и циклы.<br><br>Пример кода:<pre><code>print("Привет, мир!")</code></pre>' },
+            { title: 'Функции в Python', content: 'Функции создаются с def, принимают параметры и возвращают значения.<br><br>Используйте их для повторного кода.<br><br>Пример кода:<pre><code>def summa(a, b):<br>    return a + b<br>print(summa(5, 3))  # 8</code></pre>' }
         ],
         javascript: [
-            { 
-                title: 'Введение в JavaScript', 
-                content: 'JavaScript делает веб-страницы интерактивными. Работает в браузере.<br><br>Начните с console.log.<br><br>Пример кода:<pre><code>console.log("Привет, мир!");</code></pre>' 
-            },
-            { 
-                title: 'Основы JavaScript', 
-                content: 'Переменные: let, const. Типы: числа, строки.<br><br>Условия и циклы для логики.<br><br>Пример кода:<pre><code>let x = 10;<br>console.log(x + 5);  // 15</code></pre>' 
-            }
+            { title: 'Введение в JavaScript', content: 'JavaScript делает веб-страницы интерактивными. Работает в браузере.<br><br>Начните с console.log.<br><br>Пример кода:<pre><code>console.log("Привет, мир!");</code></pre>' },
+            { title: 'Основы JavaScript', content: 'Переменные: let, const. Типы: числа, строки.<br><br>Условия и циклы для логики.<br><br>Пример кода:<pre><code>let x = 10;<br>console.log(x + 5);  # 15</code></pre>' }
         ],
         java: [
-            { 
-                title: 'Введение в Java', 
-                content: 'Java — платформо-независимый язык. Установите JDK.<br><br>Первая программа с main.<br><br>Пример кода:<pre><code>public class HelloWorld {<br>    public static void main(String[] args) {<br>        System.out.println("Привет, мир!");<br>    }<br>}</code></pre>' 
-            },
-            { 
-                title: 'Основы Java', 
-                content: 'Переменные: int, String. Условия: if-else.<br><br>Циклы: for, while.<br><br>Пример кода:<pre><code>int x = 10;<br>System.out.println(x);</code></pre>' 
-            }
+            { title: 'Введение в Java', content: 'Java — платформо-независимый язык. Установите JDK.<br><br>Первая программа с main.<br><br>Пример кода:<pre><code>public class HelloWorld {<br>    public static void main(String[] args) {<br>        System.out.println("Привет, мир!");<br>    }<br>}</code></pre>' },
+            { title: 'Основы Java', content: 'Переменные: int, String. Условия: if-else.<br><br>Циклы: for, while.<br><br>Пример кода:<pre><code>int x = 10;<br>System.out.println(x);</code></pre>' }
         ]
     }
 };
@@ -53,7 +35,7 @@ function showLanguages() {
         const li = document.createElement('li');
         li.className = 'item';
         li.textContent = lang.name;
-        li.onclick = () => showChapters(lang.id);
+        li.addEventListener('click', () => showChapters(lang.id)); // Используем addEventListener вместо onclick
         ul.appendChild(li);
     });
 }
@@ -65,7 +47,7 @@ function showChapters(langId) {
         const li = document.createElement('li');
         li.className = 'item';
         li.textContent = chapter.title;
-        li.onclick = () => showChapterContent(langId, chapter.title, chapter.content);
+        li.addEventListener('click', () => showChapterContent(langId, chapter.title, chapter.content)); // Используем addEventListener
         ul.appendChild(li);
     });
 }
@@ -75,7 +57,7 @@ function showChapterContent(langId, title, content) {
         <button class="back-button" onclick="showChapters('${langId}')">Назад к главам</button>
         <div class="chapter-content">
             <h2>${title}</h2>
-            <p>${content}</p>
+            ${content} <!-- Без <p>, чтобы избежать nested block elements -->
         </div>
     `;
 }
@@ -124,12 +106,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Инициализация фрейма 2
     showLanguages();
 });
-
-// Обработчики событий
-window.showLanguages = showLanguages;
-window.showChapters = function(langId) {
-    showChapters(langId);
-};
-window.showChapterContent = function(langId, title, content) {
-    showChapterContent(langId, title, content);
-};

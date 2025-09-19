@@ -116,3 +116,22 @@ pre {
 code {
     color: #f8f8f2;
 }
+
+.back-button {
+    outline: none;
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: block;
+    margin: 0 auto 20px auto; /* Центрирование и отступ снизу */
+    font-size: 16px;
+}
+
+.back-button:hover {
+    background-color: #6d35a1;
+    transform: scale(1.05);
+}
