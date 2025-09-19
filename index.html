@@ -14,24 +14,63 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
-            align-items: center;
             overflow-y: auto;
         }
-        #header {
+        #menu {
+            position: fixed;
+            top: 0;
             width: 100%;
-            padding: 20px;
             background-color: #1e1e1e;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
             box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .menu-button {
+            background-color: #2c2c2c;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .menu-button:hover, .menu-button.active {
+            background-color: #007bff;
+            transform: scale(1.05);
         }
         #content {
+            margin-top: 60px;
             width: 90%;
             max-width: 800px;
             padding: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            transition: opacity 0.3s;
         }
-        .language-list, .chapter-list {
+        .frame {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+        .frame.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .welcome {
+            text-align: center;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .chapter-list, .language-list {
             list-style: none;
             padding: 0;
         }
@@ -52,19 +91,6 @@
             border-radius: 8px;
             line-height: 1.6;
         }
-        .back-button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px 0;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .back-button:hover {
-            background-color: #0056b3;
-        }
         pre {
             background-color: #000;
             padding: 10px;
@@ -77,11 +103,32 @@
     </style>
 </head>
 <body>
-    <div id="header">Учебник по языкам программирования</div>
-    <div id="content"></div>
+    <div id="menu">
+        <button class="menu-button" onclick="switchFrame(1)">Фрейм 1</button>
+        <button class="menu-button" onclick="switchFrame(2)">Фрейм 2</button>
+        <button class="menu-button" onclick="switchFrame(3)">Фрейм 3</button>
+    </div>
+    <div id="content">
+        <div id="frame1" class="frame active">
+            <div class="welcome">
+                <h1 id="welcome-text">Привет, Гость!</h1>
+                <img id="avatar" class="avatar" src="" alt="Аватар пользователя">
+                <p>Здесь скоро появится дополнительная информация о вашем прогрессе и настройках.</p>
+            </div>
+        </div>
+        <div id="frame2" class="frame">
+            <div id="chapter-content"></div>
+        </div>
+        <div id="frame3" class="frame">
+            <h2>О приложении</h2>
+            <p>Это учебник по языкам программирования, разработанный для удобного изучения основ Python, JavaScript и Java. Приложение позволяет изучать главы, сохранять прогресс и получать персонализированные приветствия.</p>
+            <p>Версия: 1.0 | Дата: 19 сентября 2025 | Разработано для защиты диплома.</p>
+            <p>Источник контента: адаптировано из METANIT и других открытых ресурсов.</p>
+        </div>
+    </div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Данные учебника на русском (расширенные главы с примерами кода)
+        // Данные учебника
         const textbook = {
             languages: [
                 { name: 'Python', id: 'python' },
@@ -92,78 +139,40 @@
                 python: [
                     { 
                         title: 'Основы Python', 
-                        content: 'Python — это простой и мощный язык программирования, идеальный для начинающих. Он имеет читаемый синтаксис и используется для веб-разработки, анализа данных и автоматизации. В этой главе вы узнаете, как установить Python, написать первую программу и работать с базовыми конструкциями.<br><br>Установка Python: Скачайте с официального сайта python.org и следуйте инструкциям. Первая программа выводит текст на экран.<br><br>Пример кода:<pre><code>print("Привет, мир!")</code></pre>' 
+                        content: 'Python — простой и мощный язык, идеален для начинающих. Установите его с python.org и напишите первую программу.<br><br>Синтаксис включает переменные, условия и циклы.<br><br>Пример кода:<pre><code>print("Привет, мир!")</code></pre>' 
                     },
                     { 
                         title: 'Функции в Python', 
-                        content: 'Функции позволяют структурировать код, делая его переиспользуемым. Они определяются с помощью def, могут принимать параметры и возвращать значения. Это помогает избежать повторений и упрощает отладку.<br><br>Функции могут быть простыми или сложными, с использованием локальных переменных. Рекурсия позволяет функции вызывать саму себя.<br><br>Пример кода:<pre><code>def summa(a, b):<br>    return a + b<br>result = summa(5, 3)<br>print(result)  # 8</code></pre>' 
-                    },
-                    { 
-                        title: 'Структуры данных в Python', 
-                        content: 'Python предлагает встроенные структуры данных: списки, кортежи, словари и множества. Списки изменяемы, кортежи — нет. Словари хранят пары ключ-значение.<br><br>Эти структуры позволяют эффективно работать с данными. List comprehension упрощает создание списков.<br><br>Пример кода:<pre><code>список = [1, 2, 3]<br>список.append(4)<br>print(список)  # [1, 2, 3, 4]</code></pre>' 
-                    },
-                    { 
-                        title: 'ООП в Python', 
-                        content: 'Объектно-ориентированное программирование (ООП) в Python основано на классах и объектах. Класс — шаблон, объект — экземпляр. Это включает инкапсуляцию, наследование и полиморфизм.<br><br>Классы определяют атрибуты и методы. Наследование позволяет создавать подклассы.<br><br>Пример кода:<pre><code>class Человек:<br>    def __init__(self, имя):<br>        self.имя = имя<br>    def привет(self):<br>        print(f"Привет, {self.имя}!")<br>том = Человек("Том")<br>том.привет()</code></pre>' 
-                    },
-                    { 
-                        title: 'Обработка исключений в Python', 
-                        content: 'Обработка исключений позволяет программе продолжать работу при ошибках. Используйте try-except для перехвата ошибок. Это важно для robust кода.<br><br>Можно создавать свои исключения и использовать finally для очистки ресурсов.<br><br>Пример кода:<pre><code>try:<br>    x = 1 / 0<br>except ZeroDivisionError:<br>    print("Деление на ноль!")</code></pre>' 
+                        content: 'Функции создаются с def, принимают параметры и возвращают значения.<br><br>Используйте их для повторного кода.<br><br>Пример кода:<pre><code>def summa(a, b):<br>    return a + b<br>print(summa(5, 3))  # 8</code></pre>' 
                     }
                 ],
                 javascript: [
                     { 
                         title: 'Введение в JavaScript', 
-                        content: 'JavaScript — это язык для веб-разработки, делающий страницы интерактивными. Он работает в браузере и на сервере (Node.js). Для начинающих важно понять основы: переменные, типы данных и простые скрипты.<br><br>JS встроен в HTML с помощью тега <script>. Первая программа может выводить сообщение.<br><br>Пример кода:<pre><code>console.log("Привет, мир!");</code></pre>' 
+                        content: 'JavaScript делает веб-страницы интерактивными. Работает в браузере.<br><br>Начните с console.log.<br><br>Пример кода:<pre><code>console.log("Привет, мир!");</code></pre>' 
                     },
                     { 
                         title: 'Основы JavaScript', 
-                        content: 'Основы включают переменные (let, const), типы данных (числа, строки, булевы). JS динамически типизирован, что упрощает код, но требует осторожности.<br><br>Операторы: арифметические, сравнения, логические. Условные конструкции if-else.<br><br>Пример кода:<pre><code>let x = 10;<br>let y = "Текст";<br>console.log(x + 5);  // 15</code></pre>' 
-                    },
-                    { 
-                        title: 'Функции в JavaScript', 
-                        content: 'Функции — блоки кода для повторного использования. Определяются с function или стрелочными функциями. Могут принимать аргументы и возвращать значения.<br><br>Анонимные функции и замыкания добавляют гибкости.<br><br>Пример кода:<pre><code>function sum(a, b) {<br>    return a + b;<br>}<br>console.log(sum(2, 3));  // 5</code></pre>' 
-                    },
-                    { 
-                        title: 'Объекты и массивы в JavaScript', 
-                        content: 'Объекты — коллекции свойств (ключ-значение). Массивы — упорядоченные списки. Методы: push, pop для массивов; Object.keys для объектов.<br><br>Это основа для работы с данными.<br><br>Пример кода:<pre><code>let массив = [1, 2, 3];<br>массив.push(4);<br>console.log(массив);  // [1, 2, 3, 4]</code></pre>' 
-                    },
-                    { 
-                        title: 'ООП в JavaScript', 
-                        content: 'ООП в JS основано на прототипах. Классы (с ES6) упрощают создание объектов. Включает конструкторы, методы, наследование.<br><br>Это позволяет строить сложные структуры.<br><br>Пример кода:<pre><code>class Человек {<br>    constructor(имя) {<br>        this.имя = имя;<br>    }<br>    привет() {<br>        console.log(`Привет, ${this.имя}!`);<br>    }<br>}<br>let том = new Человек("Том");<br>том.привет();</code></pre>' 
-                    },
-                    { 
-                        title: 'События в JavaScript', 
-                        content: 'События — реакции на действия пользователя (клик, ввод). Обработчики добавляются с addEventListener. Это ключ к интерактивности.<br><br>События: click, keydown и т.д.<br><br>Пример кода:<pre><code>document.getElementById("кнопка").addEventListener("click", function() {<br>    alert("Клик!");<br>});</code></pre>' 
+                        content: 'Переменные: let, const. Типы: числа, строки.<br><br>Условия и циклы для логики.<br><br>Пример кода:<pre><code>let x = 10;<br>console.log(x + 5);  // 15</code></pre>' 
                     }
                 ],
                 java: [
                     { 
                         title: 'Введение в Java', 
-                        content: 'Java — платформо-независимый язык для enterprise-разработки. Работает на JVM. Для начинающих: установка JDK, первая программа в IDE как IntelliJ IDEA.<br><br>Java используется для Android, серверов, десктопа.<br><br>Пример кода:<pre><code>public class HelloWorld {<br>    public static void main(String[] args) {<br>        System.out.println("Привет, мир!");<br>    }<br>}</code></pre>' 
+                        content: 'Java — платформо-независимый язык. Установите JDK.<br><br>Первая программа с main.<br><br>Пример кода:<pre><code>public class HelloWorld {<br>    public static void main(String[] args) {<br>        System.out.println("Привет, мир!");<br>    }<br>}</code></pre>' 
                     },
                     { 
-                        title: 'Основы программирования на Java', 
-                        content: 'Основы: структура программы, переменные, типы данных (int, String), условные конструкции, циклы. Java строго типизирована.<br><br>Консольный ввод/вывод с Scanner.<br><br>Пример кода:<pre><code>int x = 10;<br>String имя = "Том";<br>System.out.println(x + " " + имя);</code></pre>' 
-                    },
-                    { 
-                        title: 'Классы и объекты в Java', 
-                        content: 'Классы — основа ООП. Объекты — экземпляры классов с полями и методами. Конструкторы инициализируют объекты.<br><br>Модификаторы доступа: public, private.<br><br>Пример кода:<pre><code>class Человек {<br>    String имя;<br>    int возраст;<br><br>    Человек(String n, int a) {<br>        имя = n;<br>        возраст = a;<br>    }<br>}<br><br>Человек том = new Человек("Том", 41);</code></pre>' 
-                    },
-                    { 
-                        title: 'Наследование и интерфейсы в Java', 
-                        content: 'Наследование позволяет расширять классы. Интерфейсы определяют контракты. Абстрактные классы для общих реализаций.<br><br>Это ключ к полиморфизму.<br><br>Пример кода:<pre><code>class Животное {<br>    void есть() { System.out.println("Ест"); }<br>}<br>class Собака extends Животное {<br>    void гав() { System.out.println("Гав!"); }<br>}</code></pre>' 
-                    },
-                    { 
-                        title: 'Обработка исключений в Java', 
-                        content: 'Исключения обрабатываются try-catch-finally. Throws для декларации. Создавайте свои исключения для custom ошибок.<br><br>Это делает код устойчивым.<br><br>Пример кода:<pre><code>try {<br>    int x = 1 / 0;<br>} catch (ArithmeticException e) {<br>    System.out.println("Деление на ноль!");<br>}</code></pre>' 
+                        title: 'Основы Java', 
+                        content: 'Переменные: int, String. Условия: if-else.<br><br>Циклы: for, while.<br><br>Пример кода:<pre><code>int x = 10;<br>System.out.println(x);</code></pre>' 
                     }
                 ]
             }
         };
 
         // Функции для рендеринга
-        const contentDiv = document.getElementById('content');
+        const contentDiv = document.getElementById('chapter-content');
+        const welcomeText = document.getElementById('welcome-text');
+        const avatarImg = document.getElementById('avatar');
 
         function showLanguages() {
             contentDiv.innerHTML = '<ul class="language-list"></ul>';
@@ -199,18 +208,37 @@
             `;
         }
 
-        // Инициализация
-        showLanguages();
-
-        // Telegram WebApp интеграция и приветствие
-        if (window.Telegram && window.Telegram.WebApp) {
-            Telegram.WebApp.ready();
-            Telegram.WebApp.expand(); // Полноэкранный режим
-            const user = Telegram.WebApp.initDataUnsafe.user;
-            if (user) {
-                document.getElementById('header').innerHTML = `Привет, ${user.first_name}! Учебник по языкам программирования`;
-            }
+        function switchFrame(frameId) {
+            document.querySelectorAll('.frame').forEach(frame => frame.classList.remove('active'));
+            document.getElementById(`frame${frameId}`).classList.add('active');
+            localStorage.setItem('activeFrame', frameId);
+            document.querySelectorAll('.menu-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.menu-button:nth-child(${frameId})`).classList.add('active');
         }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedFrame = localStorage.getItem('activeFrame') || 1;
+            switchFrame(savedFrame);
+
+            // Telegram WebApp интеграция
+            if (window.Telegram && window.Telegram.WebApp) {
+                Telegram.WebApp.ready();
+                Telegram.WebApp.expand();
+                const user = Telegram.WebApp.initDataUnsafe.user;
+                if (user) {
+                    welcomeText.textContent = `Привет, ${user.first_name}!`;
+                    if (user.photo_url) {
+                        avatarImg.src = user.photo_url;
+                    }
+                }
+            } else {
+                welcomeText.textContent = 'Привет, Гость!';
+            }
+
+            // Инициализация фрейма 2
+            showLanguages();
+        });
     </script>
 </body>
 </html>
