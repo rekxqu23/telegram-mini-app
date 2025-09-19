@@ -17,8 +17,8 @@ body {
     height: 80px;
     background: linear-gradient(180deg, #1e1e1e 0%, #2a2a2a 100%);
     display: flex;
-    justify-content: space-around;
-    padding: 0 8px;
+    justify-content: center; /* Выравнивание по горизонтали */
+    align-items: center; /* Выравнивание по вертикали */
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.7);
     z-index: 1000;
 }
@@ -35,10 +35,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 8px; /* Равномерные отступы между кнопками */
 }
 
 .menu-button:hover, .menu-button.active {
-    background-color: #0056b3;
+    background-color: #6d35a1;
     transform: scale(1.1);
 }
 
