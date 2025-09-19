@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programming Languages Textbook</title>
+    <title>Учебник по языкам программирования</title>
     <style>
         body {
             margin: 0;
@@ -65,14 +65,23 @@
         .back-button:hover {
             background-color: #0056b3;
         }
+        pre {
+            background-color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            color: #f8f8f2;
+        }
     </style>
 </head>
 <body>
-    <div id="header">Programming Languages Textbook</div>
+    <div id="header">Учебник по языкам программирования</div>
     <div id="content"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Данные учебника (основаны на реальных структурах из GeeksforGeeks)
+        // Данные учебника на русском (расширенные главы с примерами кода)
         const textbook = {
             languages: [
                 { name: 'Python', id: 'python' },
@@ -81,28 +90,74 @@
             ],
             chapters: {
                 python: [
-                    { title: 'Python Basics', content: 'Covers the fundamentals of Python programming, including installing Python, writing the first program, and understanding comments, variables, keywords, and operators.' },
-                    { title: 'Python Functions', content: 'Explores Python function syntax, parameter handling, return values, variable scope, and introduces functions like range(), map, filter, and lambda functions.' },
-                    { title: 'Python Data Structures', content: 'Discusses various data types and collections offered by Python, including lists, strings, tuples, sets, dictionaries, and arrays.' },
-                    { title: 'Python OOP Concepts', content: 'Covers core principles of object-oriented programming in Python, including encapsulation, inheritance, polymorphism, abstract classes, and iterators.' },
-                    { title: 'Python Exception Handling', content: 'Explores how Python handles unexpected errors to write fault-tolerant code, including file handling for reading from and writing to files.' },
-                    // Добавь больше глав по аналогии
+                    { 
+                        title: 'Основы Python', 
+                        content: 'Python — это простой и мощный язык программирования, идеальный для начинающих. Он имеет читаемый синтаксис и используется для веб-разработки, анализа данных и автоматизации. В этой главе вы узнаете, как установить Python, написать первую программу и работать с базовыми конструкциями.<br><br>Установка Python: Скачайте с официального сайта python.org и следуйте инструкциям. Первая программа выводит текст на экран.<br><br>Пример кода:<pre><code>print("Привет, мир!")</code></pre>' 
+                    },
+                    { 
+                        title: 'Функции в Python', 
+                        content: 'Функции позволяют структурировать код, делая его переиспользуемым. Они определяются с помощью def, могут принимать параметры и возвращать значения. Это помогает избежать повторений и упрощает отладку.<br><br>Функции могут быть простыми или сложными, с использованием локальных переменных. Рекурсия позволяет функции вызывать саму себя.<br><br>Пример кода:<pre><code>def summa(a, b):<br>    return a + b<br>result = summa(5, 3)<br>print(result)  # 8</code></pre>' 
+                    },
+                    { 
+                        title: 'Структуры данных в Python', 
+                        content: 'Python предлагает встроенные структуры данных: списки, кортежи, словари и множества. Списки изменяемы, кортежи — нет. Словари хранят пары ключ-значение.<br><br>Эти структуры позволяют эффективно работать с данными. List comprehension упрощает создание списков.<br><br>Пример кода:<pre><code>список = [1, 2, 3]<br>список.append(4)<br>print(список)  # [1, 2, 3, 4]</code></pre>' 
+                    },
+                    { 
+                        title: 'ООП в Python', 
+                        content: 'Объектно-ориентированное программирование (ООП) в Python основано на классах и объектах. Класс — шаблон, объект — экземпляр. Это включает инкапсуляцию, наследование и полиморфизм.<br><br>Классы определяют атрибуты и методы. Наследование позволяет создавать подклассы.<br><br>Пример кода:<pre><code>class Человек:<br>    def __init__(self, имя):<br>        self.имя = имя<br>    def привет(self):<br>        print(f"Привет, {self.имя}!")<br>том = Человек("Том")<br>том.привет()</code></pre>' 
+                    },
+                    { 
+                        title: 'Обработка исключений в Python', 
+                        content: 'Обработка исключений позволяет программе продолжать работу при ошибках. Используйте try-except для перехвата ошибок. Это важно для robust кода.<br><br>Можно создавать свои исключения и использовать finally для очистки ресурсов.<br><br>Пример кода:<pre><code>try:<br>    x = 1 / 0<br>except ZeroDivisionError:<br>    print("Деление на ноль!")</code></pre>' 
+                    }
                 ],
                 javascript: [
-                    { title: 'Introduction of JavaScript', content: 'Covers the basics of JavaScript, including its role as a lightweight, cross-platform, and single-threaded programming language used for creating dynamic website content.' },
-                    { title: 'Why Learn JavaScript?', content: 'Highlights the importance of JavaScript in web development, its demand in job markets (Frontend, Backend, Full Stack), support for frameworks/libraries (React, Angular, Node.js).' },
-                    { title: 'Write and Run Your First JavaScript Program', content: 'Guides beginners on running JavaScript, noting that browsers can execute it directly without a compiler. Includes an example (console.log("Hello World!");).' },
-                    { title: 'Fundamentals', content: 'Explores the core concepts of JavaScript to build a foundational understanding.' },
-                    { title: 'Functions and Events', content: 'Covers functions as reusable code blocks for specific tasks and events as browser actions like mouse clicks or page loading.' },
-                    // Добавь больше
+                    { 
+                        title: 'Введение в JavaScript', 
+                        content: 'JavaScript — это язык для веб-разработки, делающий страницы интерактивными. Он работает в браузере и на сервере (Node.js). Для начинающих важно понять основы: переменные, типы данных и простые скрипты.<br><br>JS встроен в HTML с помощью тега <script>. Первая программа может выводить сообщение.<br><br>Пример кода:<pre><code>console.log("Привет, мир!");</code></pre>' 
+                    },
+                    { 
+                        title: 'Основы JavaScript', 
+                        content: 'Основы включают переменные (let, const), типы данных (числа, строки, булевы). JS динамически типизирован, что упрощает код, но требует осторожности.<br><br>Операторы: арифметические, сравнения, логические. Условные конструкции if-else.<br><br>Пример кода:<pre><code>let x = 10;<br>let y = "Текст";<br>console.log(x + 5);  // 15</code></pre>' 
+                    },
+                    { 
+                        title: 'Функции в JavaScript', 
+                        content: 'Функции — блоки кода для повторного использования. Определяются с function или стрелочными функциями. Могут принимать аргументы и возвращать значения.<br><br>Анонимные функции и замыкания добавляют гибкости.<br><br>Пример кода:<pre><code>function sum(a, b) {<br>    return a + b;<br>}<br>console.log(sum(2, 3));  // 5</code></pre>' 
+                    },
+                    { 
+                        title: 'Объекты и массивы в JavaScript', 
+                        content: 'Объекты — коллекции свойств (ключ-значение). Массивы — упорядоченные списки. Методы: push, pop для массивов; Object.keys для объектов.<br><br>Это основа для работы с данными.<br><br>Пример кода:<pre><code>let массив = [1, 2, 3];<br>массив.push(4);<br>console.log(массив);  // [1, 2, 3, 4]</code></pre>' 
+                    },
+                    { 
+                        title: 'ООП в JavaScript', 
+                        content: 'ООП в JS основано на прототипах. Классы (с ES6) упрощают создание объектов. Включает конструкторы, методы, наследование.<br><br>Это позволяет строить сложные структуры.<br><br>Пример кода:<pre><code>class Человек {<br>    constructor(имя) {<br>        this.имя = имя;<br>    }<br>    привет() {<br>        console.log(`Привет, ${this.имя}!`);<br>    }<br>}<br>let том = new Человек("Том");<br>том.привет();</code></pre>' 
+                    },
+                    { 
+                        title: 'События в JavaScript', 
+                        content: 'События — реакции на действия пользователя (клик, ввод). Обработчики добавляются с addEventListener. Это ключ к интерактивности.<br><br>События: click, keydown и т.д.<br><br>Пример кода:<pre><code>document.getElementById("кнопка").addEventListener("click", function() {<br>    alert("Клик!");<br>});</code></pre>' 
+                    }
                 ],
                 java: [
-                    { title: 'Learn Java Step by Step', content: 'Provides a roadmap for beginners to become skilled Java developers, outlining the complete guide to getting started and becoming proficient in Java.' },
-                    { title: 'All About Java', content: 'Covers fundamental questions such as what Java is, why to learn it, why it is popular, and its features.' },
-                    { title: 'Java Environment', content: 'Explains the environment where Java operates, focusing on the JVM, its architecture, and how it works.' },
-                    { title: 'Java Programming Basics', content: 'Provides in-depth knowledge of the basics of Java in a simple format, essential for building proficiency in the language.' },
-                    { title: 'Object Oriented Programming (OOPs) Concept in Java', content: 'Discusses Java as an object-oriented programming language, explaining how OOP simplifies programs by dividing them into objects.' },
-                    // Добавь больше
+                    { 
+                        title: 'Введение в Java', 
+                        content: 'Java — платформо-независимый язык для enterprise-разработки. Работает на JVM. Для начинающих: установка JDK, первая программа в IDE как IntelliJ IDEA.<br><br>Java используется для Android, серверов, десктопа.<br><br>Пример кода:<pre><code>public class HelloWorld {<br>    public static void main(String[] args) {<br>        System.out.println("Привет, мир!");<br>    }<br>}</code></pre>' 
+                    },
+                    { 
+                        title: 'Основы программирования на Java', 
+                        content: 'Основы: структура программы, переменные, типы данных (int, String), условные конструкции, циклы. Java строго типизирована.<br><br>Консольный ввод/вывод с Scanner.<br><br>Пример кода:<pre><code>int x = 10;<br>String имя = "Том";<br>System.out.println(x + " " + имя);</code></pre>' 
+                    },
+                    { 
+                        title: 'Классы и объекты в Java', 
+                        content: 'Классы — основа ООП. Объекты — экземпляры классов с полями и методами. Конструкторы инициализируют объекты.<br><br>Модификаторы доступа: public, private.<br><br>Пример кода:<pre><code>class Человек {<br>    String имя;<br>    int возраст;<br><br>    Человек(String n, int a) {<br>        имя = n;<br>        возраст = a;<br>    }<br>}<br><br>Человек том = new Человек("Том", 41);</code></pre>' 
+                    },
+                    { 
+                        title: 'Наследование и интерфейсы в Java', 
+                        content: 'Наследование позволяет расширять классы. Интерфейсы определяют контракты. Абстрактные классы для общих реализаций.<br><br>Это ключ к полиморфизму.<br><br>Пример кода:<pre><code>class Животное {<br>    void есть() { System.out.println("Ест"); }<br>}<br>class Собака extends Животное {<br>    void гав() { System.out.println("Гав!"); }<br>}</code></pre>' 
+                    },
+                    { 
+                        title: 'Обработка исключений в Java', 
+                        content: 'Исключения обрабатываются try-catch-finally. Throws для декларации. Создавайте свои исключения для custom ошибок.<br><br>Это делает код устойчивым.<br><br>Пример кода:<pre><code>try {<br>    int x = 1 / 0;<br>} catch (ArithmeticException e) {<br>    System.out.println("Деление на ноль!");<br>}</code></pre>' 
+                    }
                 ]
             }
         };
@@ -123,7 +178,7 @@
         }
 
         function showChapters(langId) {
-            contentDiv.innerHTML = '<button class="back-button" onclick="showLanguages()">Back to Languages</button><ul class="chapter-list"></ul>';
+            contentDiv.innerHTML = '<button class="back-button" onclick="showLanguages()">Назад к языкам</button><ul class="chapter-list"></ul>';
             const ul = contentDiv.querySelector('ul');
             textbook.chapters[langId].forEach(chapter => {
                 const li = document.createElement('li');
@@ -136,7 +191,7 @@
 
         function showChapterContent(langId, title, content) {
             contentDiv.innerHTML = `
-                <button class="back-button" onclick="showChapters('${langId}')">Back to Chapters</button>
+                <button class="back-button" onclick="showChapters('${langId}')">Назад к главам</button>
                 <div class="chapter-content">
                     <h2>${title}</h2>
                     <p>${content}</p>
@@ -147,10 +202,14 @@
         // Инициализация
         showLanguages();
 
-        // Telegram WebApp интеграция
+        // Telegram WebApp интеграция и приветствие
         if (window.Telegram && window.Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand(); // Полноэкранный режим
+            const user = Telegram.WebApp.initDataUnsafe.user;
+            if (user) {
+                document.getElementById('header').innerHTML = `Привет, ${user.first_name}! Учебник по языкам программирования`;
+            }
         }
     </script>
 </body>
