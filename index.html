@@ -3,31 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World Mini App</title>
+    <title>Programming Languages Textbook</title>
     <style>
         body {
             margin: 0;
+            padding: 0;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000000;
+            background-color: #121212;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+        }
+        #header {
+            width: 100%;
+            padding: 20px;
+            background-color: #1e1e1e;
+            text-align: center;
             font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        #content {
+            width: 90%;
+            max-width: 800px;
+            padding: 20px;
+        }
+        .language-list, .chapter-list {
+            list-style: none;
+            padding: 0;
+        }
+        .item {
+            background-color: #2c2c2c;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .item:hover {
+            background-color: #3a3a3a;
+        }
+        .chapter-content {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+        .back-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div>Hello World</div>
+    <div id="header">Programming Languages Textbook</div>
+    <div id="content"></div>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-        // Инициализация Telegram WebApp
+        // Данные учебника (основаны на реальных структурах из GeeksforGeeks)
+        const textbook = {
+            languages: [
+                { name: 'Python', id: 'python' },
+                { name: 'JavaScript', id: 'javascript' },
+                { name: 'Java', id: 'java' }
+            ],
+            chapters: {
+                python: [
+                    { title: 'Python Basics', content: 'Covers the fundamentals of Python programming, including installing Python, writing the first program, and understanding comments, variables, keywords, and operators.' },
+                    { title: 'Python Functions', content: 'Explores Python function syntax, parameter handling, return values, variable scope, and introduces functions like range(), map, filter, and lambda functions.' },
+                    { title: 'Python Data Structures', content: 'Discusses various data types and collections offered by Python, including lists, strings, tuples, sets, dictionaries, and arrays.' },
+                    { title: 'Python OOP Concepts', content: 'Covers core principles of object-oriented programming in Python, including encapsulation, inheritance, polymorphism, abstract classes, and iterators.' },
+                    { title: 'Python Exception Handling', content: 'Explores how Python handles unexpected errors to write fault-tolerant code, including file handling for reading from and writing to files.' },
+                    // Добавь больше глав по аналогии
+                ],
+                javascript: [
+                    { title: 'Introduction of JavaScript', content: 'Covers the basics of JavaScript, including its role as a lightweight, cross-platform, and single-threaded programming language used for creating dynamic website content.' },
+                    { title: 'Why Learn JavaScript?', content: 'Highlights the importance of JavaScript in web development, its demand in job markets (Frontend, Backend, Full Stack), support for frameworks/libraries (React, Angular, Node.js).' },
+                    { title: 'Write and Run Your First JavaScript Program', content: 'Guides beginners on running JavaScript, noting that browsers can execute it directly without a compiler. Includes an example (console.log("Hello World!");).' },
+                    { title: 'Fundamentals', content: 'Explores the core concepts of JavaScript to build a foundational understanding.' },
+                    { title: 'Functions and Events', content: 'Covers functions as reusable code blocks for specific tasks and events as browser actions like mouse clicks or page loading.' },
+                    // Добавь больше
+                ],
+                java: [
+                    { title: 'Learn Java Step by Step', content: 'Provides a roadmap for beginners to become skilled Java developers, outlining the complete guide to getting started and becoming proficient in Java.' },
+                    { title: 'All About Java', content: 'Covers fundamental questions such as what Java is, why to learn it, why it is popular, and its features.' },
+                    { title: 'Java Environment', content: 'Explains the environment where Java operates, focusing on the JVM, its architecture, and how it works.' },
+                    { title: 'Java Programming Basics', content: 'Provides in-depth knowledge of the basics of Java in a simple format, essential for building proficiency in the language.' },
+                    { title: 'Object Oriented Programming (OOPs) Concept in Java', content: 'Discusses Java as an object-oriented programming language, explaining how OOP simplifies programs by dividing them into objects.' },
+                    // Добавь больше
+                ]
+            }
+        };
+
+        // Функции для рендеринга
+        const contentDiv = document.getElementById('content');
+
+        function showLanguages() {
+            contentDiv.innerHTML = '<ul class="language-list"></ul>';
+            const ul = contentDiv.querySelector('ul');
+            textbook.languages.forEach(lang => {
+                const li = document.createElement('li');
+                li.className = 'item';
+                li.textContent = lang.name;
+                li.onclick = () => showChapters(lang.id);
+                ul.appendChild(li);
+            });
+        }
+
+        function showChapters(langId) {
+            contentDiv.innerHTML = '<button class="back-button" onclick="showLanguages()">Back to Languages</button><ul class="chapter-list"></ul>';
+            const ul = contentDiv.querySelector('ul');
+            textbook.chapters[langId].forEach(chapter => {
+                const li = document.createElement('li');
+                li.className = 'item';
+                li.textContent = chapter.title;
+                li.onclick = () => showChapterContent(langId, chapter.title, chapter.content);
+                ul.appendChild(li);
+            });
+        }
+
+        function showChapterContent(langId, title, content) {
+            contentDiv.innerHTML = `
+                <button class="back-button" onclick="showChapters('${langId}')">Back to Chapters</button>
+                <div class="chapter-content">
+                    <h2>${title}</h2>
+                    <p>${content}</p>
+                </div>
+            `;
+        }
+
+        // Инициализация
+        showLanguages();
+
+        // Telegram WebApp интеграция
         if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.ready();
-            console.log('Telegram WebApp initialized');
-        } else {
-            console.error('Telegram WebApp not available');
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand(); // Полноэкранный режим
         }
     </script>
 </body>
